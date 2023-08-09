@@ -39,7 +39,7 @@ void pngCompress(const fs::path& curPath)
         auto result = std::find(list.begin(), list.end(), png);
         if(result == list.end())
         {
-            std::cout << "!!!!!!!!! the png has been skiped : " << png.string() << std::endl;
+            // std::cout << "!!!!!!!!! the png has been skiped : " << png.string() << std::endl;
             continue;
         }
 
