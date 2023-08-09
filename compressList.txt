@@ -1,0 +1,4 @@
+#相当于res的相对路径
+
+uiPlist2
+v33/uiPlist
