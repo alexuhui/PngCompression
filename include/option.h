@@ -5,6 +5,6 @@
 
 using namespace std;
 
-string getOp();
+string getOp(bool no_log = false);
 
 #endif //_OPTION_H

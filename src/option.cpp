@@ -1,12 +1,12 @@
 #include "option.h"
 
-string getOp()
+string getOp(bool no_log)
 {
     string suffix = ".png";
     int ncolors = -1;
     int speed = -1;
     bool force_overwrite = true;
-    bool verbose = true;
+    bool verbose = !no_log;
     bool ie6_alpha_support = false; 
     bool disable_floyd_steinberg_dithering = false;
     string op = "";

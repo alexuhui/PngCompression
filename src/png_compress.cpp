@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "png_compress.h"
 #include "compress_filter.h"
+#include "util.h"
 
 bool findPngquant(const fs::path& curPath, string& pngquant)
 {
@@ -21,9 +22,9 @@ bool findPngquant(const fs::path& curPath, string& pngquant)
     return false;
 }
 
-void pngCompress(const fs::path& curPath)
+void pngCompress(const fs::path& curPath, bool no_log)
 {
-    string op = getOp();
+    string op = getOp(no_log);
     // pngquant路径
     string exePath;
     if (!findPngquant(curPath, exePath))
@@ -31,7 +32,7 @@ void pngCompress(const fs::path& curPath)
         throw runtime_error("can not find compress tool \"pngquant.exe\" in folder : " + curPath.string());
     }
 
-    vector<fs::path> pngs = getPngs(curPath);
+    vector<fs::path> pngs = getPngs(curPath, no_log);
     vector<fs::path> list = getCompressList(curPath);
 
     std::cout << endl << "============================== start compress ===========================" << endl;
@@ -43,8 +44,13 @@ void pngCompress(const fs::path& curPath)
             continue;
         }
 
-        string cmdLine (exePath + op + png.string());
+        string pngPath = png.string();
+        int oriSize = getPngSize(png);
+        string cmdLine (exePath + op + pngPath);
         cmdSystem(cmdLine);
+        int newSize = getPngSize(png);
+        float rate = (float)(oriSize - newSize) / oriSize;
+        std::cout << "completed! ori size : " << oriSize << "    new size : " << newSize << "   rate : " << rate * 100 << "%" << endl << endl;
     }
     std::cout << "============================== end compress ===========================" << endl << endl;
 }

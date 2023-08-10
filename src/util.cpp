@@ -16,3 +16,18 @@ fs::path getResPath(const fs::path& curPath)
 
     return res;
 }
+
+int getPngSize(const fs::path& pngPath)
+{
+    std::ifstream file(pngPath, std::ios::binary);
+    if (!file) {
+        std::cerr << "Failed to open the file : " << pngPath << std::endl;
+        return 0;
+    }
+
+    // 获取文件大小
+    file.seekg(0, std::ios::end);
+    std::streampos fileSize = file.tellg();
+    // cout << "png : " << pngPath <<  " size : " << fileSize << endl;
+    return fileSize;
+}

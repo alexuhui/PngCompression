@@ -7,7 +7,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-void checkPngs(vector<fs::path>& pngs, const fs::path& path);
-vector<fs::path> getPngs(const fs::path& path);
+void checkPngs(vector<fs::path>& pngs, const fs::path& path, bool no_log);
+vector<fs::path> getPngs(const fs::path& path, bool no_log);
 
 #endif // _PNG_SEARCH_H
