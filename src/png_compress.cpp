@@ -14,7 +14,7 @@ bool findPngquant(const fs::path& curPath, string& pngquant)
         } else if (fs::is_regular_file(entry) && entry.path().filename() == "pngquant.exe") 
         {
             pngquant = entry.path().string();
-            std::cout << "compress tool : " << pngquant << std::endl;
+            std::cout << "compress tool : " << pngquant << std::endl << endl;
             return true;
         }
     }

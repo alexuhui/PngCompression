@@ -51,7 +51,7 @@ vector<fs::path> getCompressList(const fs::path& curPath)
 
         fs::path file = (res / (line + ".png"));
         compressList.push_back(file);
-        std::cout << " ----------- compress file : " << file.string() << std::endl;
+        std::cout << " ----------- file to compress : " << file.string() << std::endl;
     }
     confFile.close();
 
