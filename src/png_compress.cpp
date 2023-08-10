@@ -66,7 +66,7 @@ void pngCompress(const fs::path& curPath, bool no_log)
         cmdSystem(cmdLine);
         int newSize = getPngSize(png);
         float rate = (float)(oriSize - newSize) / oriSize;
-        std::cout << "completed! ori size : " << oriSize << "    new size : " << newSize << "   rate : " << rate * 100 << "%" << endl << endl;
+        std::cout << "completed! ori size : " << oriSize << "kb    new size : " << newSize << "kb   rate : " << rate * 100 << "%" << endl << endl;
     }
     std::cout << "============================== end compress ===========================" << endl << endl;
 }
