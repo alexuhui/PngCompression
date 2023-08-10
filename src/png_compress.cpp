@@ -34,14 +34,30 @@ void pngCompress(const fs::path& curPath, bool no_log)
 
     vector<fs::path> pngs = getPngs(curPath, no_log);
     vector<fs::path> list = getCompressList(curPath);
+    vector<fs::path> skipList;
+    if(list.empty())
+    {
+        skipList = getSkipList(curPath);
+    }
 
     std::cout << endl << "============================== start compress ===========================" << endl;
     for (const fs::path& png : pngs) {
-        auto result = std::find(list.begin(), list.end(), png);
-        if(result == list.end())
+        if(!list.empty())
         {
-            // std::cout << "!!!!!!!!! the png has been skiped : " << png.string() << std::endl;
-            continue;
+            auto result = std::find(list.begin(), list.end(), png);
+            // did not find
+            if(result == list.end())
+            {
+                continue;
+            }
+        }else if (!skipList.empty())
+        {
+            auto result = std::find(skipList.begin(), skipList.end(), png);
+            // in skip list
+            if(result != skipList.end())
+            {
+                continue;
+            }
         }
 
         string pngPath = png.string();
