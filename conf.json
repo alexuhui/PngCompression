@@ -1,0 +1,11 @@
+{
+    "tip":"",
+    "CompressPath":[
+        "path1",
+        "path2"
+    ],
+    "SkipPath":[
+        "path1",
+        "path2"
+    ]
+}

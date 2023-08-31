@@ -2,6 +2,7 @@
 #include "png_compress.h"
 #include "compress_filter.h"
 #include "util.h"
+#include "conf.h"
 
 bool findPngquant(const fs::path& curPath, string& pngquant)
 {
@@ -22,7 +23,7 @@ bool findPngquant(const fs::path& curPath, string& pngquant)
     return false;
 }
 
-void pngCompress(const fs::path& curPath, bool no_log)
+void pngCompress(const fs::path& curPath, string& confFile, bool no_log)
 {
     string op = getOp(no_log);
     // pngquant路径
@@ -31,6 +32,10 @@ void pngCompress(const fs::path& curPath, bool no_log)
     {
         throw runtime_error("can not find compress tool \"pngquant.exe\" in folder : " + curPath.string());
     }
+
+    vector<fs::path> inc;
+    vector<fs::path> skip;
+    Parse(curPath / confFile, inc, skip);
 
     vector<fs::path> pngs = getPngs(curPath, no_log);
     vector<fs::path> list = getCompressList(curPath);

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\PngCompression\PngCompression\test\util\build\CMakeFiles\fe86f343fe04ffc418f571cbedf05fb4\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{792FEBE2-16C3-3944-BDDA-FC3A80C44A02}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

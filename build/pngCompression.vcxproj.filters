@@ -7,6 +7,9 @@
     <ClCompile Include="F:\PngCompression\PngCompression\src\compress_filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="F:\PngCompression\PngCompression\src\conf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="F:\PngCompression\PngCompression\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
