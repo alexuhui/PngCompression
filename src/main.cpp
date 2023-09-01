@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 {
     try{
         fs::path curPath = fs::current_path();
-        cout << "Current path : " << curPath << endl;
+        cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Current path : " << curPath.string() << endl;
 
         // TODO 把参数封装成结构体
         string conf = "conf.json";
