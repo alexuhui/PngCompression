@@ -1,3 +1,0 @@
-F:/PngCompression/PngCompression/test/json/build/CMakeFiles/test.dir
-F:/PngCompression/PngCompression/test/json/build/CMakeFiles/ALL_BUILD.dir
-F:/PngCompression/PngCompression/test/json/build/CMakeFiles/ZERO_CHECK.dir
