@@ -1,11 +1,12 @@
 {
     "tip":"",
     "CompressPath":[
-        "path1",
-        "path2"
+        "res/uiPlist2",
+        "res/v33",
+        "res/v22"
     ],
     "SkipPath":[
-        "path1",
-        "path2"
+        "res/v33/uiPlist",
+        "res/v22/uiPlist.png"
     ]
 }

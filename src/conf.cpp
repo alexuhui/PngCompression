@@ -1,7 +1,7 @@
 #include "conf.h"
 #include <sstream>
 
-void Parse(const fs::path& path, vector<fs::path> compressList, vector<fs::path> skipList)
+void ParseConf(const fs::path& path, vector<fs::path>& compressList, vector<fs::path>& skipList, bool no_log)
 {
     string pathStr = path.string();
     std::ifstream confFile(pathStr);
@@ -20,11 +20,11 @@ void Parse(const fs::path& path, vector<fs::path> compressList, vector<fs::path>
     
     for (int i = 0; i < compress.size(); i++)
     {
-        cout << "compress ----------------------" << compress[i].string_value() << endl;
+        compressList.push_back(compress[i].string_value());
     }
     for (int i = 0; i < skip.size(); i++)
     {
-        cout << "skip ----------------------" << skip[i].string_value() << endl;
+        skipList.push_back(skip[i].string_value());
     }
 
     confFile.close();

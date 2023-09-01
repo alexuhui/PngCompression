@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <filesystem>
 #include "png_compress.h"
@@ -7,34 +7,49 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+
+/*
+    [-nolog]  only print main log
+    [conf dir]  conf path 
+*/
 int main(int argc, char* argv[])
 {
     try{
         fs::path curPath = fs::current_path();
         cout << "Current path : " << curPath << endl;
 
+        // TODO 把参数封装成结构体
         string conf = "conf.json";
-        if(argc > 1)
+        bool nolog = false;
+        if (argc > 1)
         {
-            string param1 = argv[1];
-            if (endsWith(param1, ".json"))
+            for (size_t i = 1; i < argc; i++)
             {
-                conf = param1;
-            }else
-            {
-                conf = param1 + ".json";
+                string param = argv[i];
+                if (param == "-nolog")
+                {
+                    nolog = true;
+                    continue;
+                }
+                if (param == "-conf")
+                {
+                    if (i + 1 < argc)
+                    {
+                        i ++;
+                        string file = argv[i];
+                        if (endsWith(file, ".json"))
+                        {
+                            conf = file;
+                        }else
+                        {
+                            conf = file + ".json";
+                        }
+                    }
+                    continue;
+                }
             }
         }
 
-        bool nolog = false;
-        if(argc > 2)
-        {
-            string param2 = argv[2];
-            if (param2 == "-nolog")
-            {
-                nolog = true;
-            }
-        }
         pngCompress(curPath, conf, nolog);
         
         system("pause");

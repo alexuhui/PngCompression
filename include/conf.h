@@ -25,6 +25,6 @@ namespace fs = std::filesystem;
 *       ]
 *    }
 */
-void Parse(const fs::path& path, vector<fs::path> compressList, vector<fs::path> skipList);
+void ParseConf(const fs::path& path, vector<fs::path>& compressList, vector<fs::path>& skipList, bool no_log);
 
 #endif  //_CONF_H

@@ -1,97 +1,93 @@
-#include "compress_filter.h"
+﻿#include "compress_filter.h"
 #include "util.h"
+#include <map>
+#include <functional>
 
-bool findConf(const fs::path& curPath, string& conf, string file)
+map<size_t, vector<fs::path>> skipMap;
+std::hash<std::string> stringHash;
+vector<fs::path> getCompressList(const fs::path& curPath, vector<fs::path>& compressList, vector<fs::path>& skipList , bool no_log)
 {
-    for (const auto& entry : fs::directory_iterator(curPath)) {
-        if (fs::is_directory(entry)) 
+    for (fs::path& skip : skipList)
+    {
+        skip = curPath / skip;
+        fixPath(skip, ".png");
+        if (!no_log)
+            std::cout << " --------------- skip path : " << skip.string() << std::endl;
+
+        size_t key = stringHash(skip.string());
+        auto it = skipMap.find(key);
+        if (it != skipMap.end()) {
+            // 找到了键为 key 的元素
+            vector<fs::path> list = it-> second;
+            list.push_back(skip);
+        } else {
+            // 没有找到键为 key 的元素
+            vector<fs::path> list;
+            list.push_back(skip);
+            skipMap[key] = list;
+        }
+    }
+
+    // test hash map
+    // for (const auto& pair : skipMap) {
+    //     auto key = pair.first;
+    //     auto value = pair.second;
+
+    //     std::cout << " --------------- skip key : " << key << std::endl;
+    //     // 使用 key 和 value 进行操作
+    //     for(fs::path& path : value)
+    //     {
+    //          std::cout << " --------------- skip path : " << path.string() << std::endl;
+    //     }
+    // }
+
+
+    vector<fs::path> pngs;
+    for (fs::path& compress : compressList)
+    {
+        compress = curPath / compress;
+        fixPath(compress, ".png");
+        if (!no_log)
+            std::cout << " +++++++++++ compress path : " << compress.string() << std::endl;
+        findPngs(compress, pngs, no_log);
+    }
+
+    if(!no_log)
+    {
+        for(fs::path png : pngs)
         {
-            if(findConf(entry.path(), conf, file))// 递归遍历子文件夹
+            std::cout << " **** compress png : " << png.string() << std::endl;
+        }
+    }
+
+    return pngs;
+}
+
+void findPngs(const fs::path& compressPath, vector<fs::path>& pngs, bool no_log)
+{
+    size_t key = stringHash(compressPath.string());
+    auto it = skipMap.find(key);
+    if (it != skipMap.end()) {
+        // 找到了键为 key 的元素
+        vector<fs::path> list = it-> second;
+        for(auto& skip : list)
+        {
+            if(skip == compressPath)
             {
-                return true;
+                if (!no_log)
+                    std::cout << " --------------- the path has been skip : " << compressPath.string() << std::endl;
+                return;
             }
-        } else if (fs::is_regular_file(entry) && entry.path().filename() == file) 
-        {
-            conf = entry.path().string();
-            std::cout << "filter config : " << conf << std::endl;
-            return true;
         }
     }
-    return false;
-}
 
-vector<fs::path> getCompressList(const fs::path& curPath)
-{
-    // compressList.txt路径
-    string confPath;
-    vector<fs::path> compressList;
-    if (!findConf(curPath, confPath, "compressList.txt"))
+    if (fs::is_directory(compressPath)) 
     {
-        std::cout << "there is no config file : compressList.txt " << std::endl;
-        return compressList;
-    }
-
-    std::ifstream confFile(confPath);
-    if (!confFile.is_open()) {
-        throw runtime_error("can not open the compress config file : " + confPath);
-    }
-
-    std::string line;
-    fs::path res = getResPath(curPath);
-    while (std::getline(confFile, line)) {
-        // Remove white space characters using std::remove_if and isspace
-        line.erase(remove_if(line.begin(), line.end(), [](unsigned char c) {
-            return isspace(c);
-        }), line.end());
-
-        if(line.empty() || line._Starts_with("#"))
-        {
-            continue;
+        for (const auto& entry : fs::directory_iterator(compressPath)) {
+            findPngs(entry.path(), pngs, no_log);
         }
-
-        fs::path file = (res / (line + ".png"));
-        compressList.push_back(file);
-        std::cout << " ----------- file to compress : " << file.string() << std::endl;
-    }
-    confFile.close();
-
-    return compressList;
-}
-
-vector<fs::path> getSkipList(const fs::path& curPath)
-{
-    // skipList.txt路径
-    string confPath;
-    vector<fs::path> skipList;
-    if (!findConf(curPath, confPath, "skipList.txt"))
+    }else if (endsWith(compressPath.string(), ".png"))
     {
-        std::cout << "there is no config file : skipList.txt " << std::endl;
-        return skipList;
+        pngs.push_back(compressPath);
     }
-
-    std::ifstream confFile(confPath);
-    if (!confFile.is_open()) {
-        throw runtime_error("can not open the skipList config file : " + confPath);
-    }
-
-    std::string line;
-    fs::path res = getResPath(curPath);
-    while (std::getline(confFile, line)) {
-        // Remove white space characters using std::remove_if and isspace
-        line.erase(remove_if(line.begin(), line.end(), [](unsigned char c) {
-            return isspace(c);
-        }), line.end());
-
-        if(line.empty() || line._Starts_with("#"))
-        {
-            continue;
-        }
-
-        fs::path file = (res / (line + ".png"));
-        skipList.push_back(file);
-        std::cout << " ----------- file to skip : " << file.string() << std::endl;
-    }
-    confFile.close();
-
-    return skipList;
 }

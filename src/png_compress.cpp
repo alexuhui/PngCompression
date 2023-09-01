@@ -35,36 +35,11 @@ void pngCompress(const fs::path& curPath, string& confFile, bool no_log)
 
     vector<fs::path> inc;
     vector<fs::path> skip;
-    Parse(curPath / confFile, inc, skip);
-
-    vector<fs::path> pngs = getPngs(curPath, no_log);
-    vector<fs::path> list = getCompressList(curPath);
-    vector<fs::path> skipList;
-    if(list.empty())
-    {
-        skipList = getSkipList(curPath);
-    }
+    ParseConf(curPath / confFile, inc, skip, no_log);
+    vector<fs::path> pngs = getCompressList(curPath, inc, skip, no_log);
 
     std::cout << endl << "============================== start compress ===========================" << endl;
     for (const fs::path& png : pngs) {
-        if(!list.empty())
-        {
-            auto result = std::find(list.begin(), list.end(), png);
-            // did not find
-            if(result == list.end())
-            {
-                continue;
-            }
-        }else if (!skipList.empty())
-        {
-            auto result = std::find(skipList.begin(), skipList.end(), png);
-            // in skip list
-            if(result != skipList.end())
-            {
-                continue;
-            }
-        }
-
         string pngPath = png.string();
         int oriSize = getPngSize(png);
         string cmdLine (exePath + op + pngPath);

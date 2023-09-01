@@ -9,8 +9,8 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-bool findConf(const fs::path& curPath, string& conf, string file);
-vector<fs::path> getCompressList(const fs::path& curPath);
-vector<fs::path> getSkipList(const fs::path& curPath);
+// v2 filter by conf.json 
+vector<fs::path> getCompressList(const fs::path& curPath, vector<fs::path>& compressList, vector<fs::path>& skipList, bool no_log);
+void findPngs(const fs::path& compressPath, vector<fs::path>& pngs, bool no_log);
 
 #endif // _COMPRESS_FILTER_H
