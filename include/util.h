@@ -10,7 +10,9 @@ using namespace std;
 namespace fs = std::filesystem;
 
 //查找文件路径
-bool findConf(const fs::path& curPath, string& conf, string file);
+bool findFile(const fs::path& curPath, string& conf, string file);
+//文件是否存在
+inline bool fileExists (const std::string& path);
 
 fs::path getResPath(const fs::path& curPath);
 

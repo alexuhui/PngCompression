@@ -4,31 +4,12 @@
 #include "util.h"
 #include "conf.h"
 
-bool findPngquant(const fs::path& curPath, string& pngquant)
-{
-    for (const auto& entry : fs::directory_iterator(curPath)) {
-        if (fs::is_directory(entry)) 
-        {
-            if(findPngquant(entry.path(), pngquant))// 递归遍历子文件夹
-            {
-                return true;
-            }
-        } else if (fs::is_regular_file(entry) && entry.path().filename() == "pngquant.exe") 
-        {
-            pngquant = entry.path().string();
-            std::cout << "compress tool : " << pngquant << std::endl << endl;
-            return true;
-        }
-    }
-    return false;
-}
-
 void pngCompress(const fs::path& curPath, string& confFile, bool no_log)
 {
     string op = getOp(no_log);
     // pngquant路径
     string exePath;
-    if (!findPngquant(curPath, exePath))
+    if (!findFile(curPath, exePath, "pngquant.exe"))
     {
         throw runtime_error("can not find compress tool \"pngquant.exe\" in folder : " + curPath.string());
     }

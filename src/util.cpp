@@ -1,11 +1,11 @@
 #include "util.h"
 
-bool findConf(const fs::path& curPath, string& conf, string file)
+bool findFile(const fs::path& curPath, string& conf, string file)
 {
     for (const auto& entry : fs::directory_iterator(curPath)) {
         if (fs::is_directory(entry)) 
         {
-            if(findConf(entry.path(), conf, file))// 递归遍历子文件夹
+            if(findFile(entry.path(), conf, file))// 递归遍历子文件夹
             {
                 return true;
             }
@@ -17,6 +17,11 @@ bool findConf(const fs::path& curPath, string& conf, string file)
         }
     }
     return false;
+}
+
+inline bool fileExists (const std::string& path) {
+  struct stat buffer;   
+  return (stat (path.c_str(), &buffer) == 0); 
 }
 
 fs::path getResPath(const fs::path& curPath)

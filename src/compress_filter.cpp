@@ -47,6 +47,12 @@ vector<fs::path> getCompressList(const fs::path& curPath, vector<fs::path>& comp
     {
         compress = curPath / compress;
         fixPath(compress, ".png");
+        if(!fs::exists(compress))
+        {
+            std::cout << ">> warnning : path not exists : " << compress.string() << std::endl;
+            continue;
+        }
+
         if (!no_log)
             std::cout << " +++++++++++ compress path : " << compress.string() << std::endl;
         findPngs(compress, pngs, no_log);
